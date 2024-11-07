@@ -9,7 +9,6 @@ import logging
 import mysql.connector
 
 
-
 def filter_datum(
         fields: List[str], redaction: str,
         message: str, separator: str) -> str:
@@ -65,4 +64,3 @@ def get_db() -> mysql.connector.connection.MySQLConnection:
     connector = mysql.connector.connection.MySQLConnection(
         user=username, password=password, host=host, database=db_name)
     return connector
-
