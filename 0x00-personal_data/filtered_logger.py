@@ -6,8 +6,8 @@ from os import environ
 from typing import List
 import re
 import logging
+import mysql.connector
 
-import mysql
 
 
 def filter_datum(
