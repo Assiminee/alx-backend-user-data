@@ -5,8 +5,10 @@ Contains BasicAuth class
 """
 import base64
 from email.charset import BASE64
+from typing import TypeVar
 
 from api.v1.auth.auth import Auth
+from models.user import User
 
 
 class BasicAuth(Auth):
@@ -57,3 +59,24 @@ class BasicAuth(Auth):
             return email, password
 
         return None, None
+
+    def user_object_from_credentials(
+            self, user_email: str, user_pwd: str
+    ) -> TypeVar('User'):
+        """
+        Returns the User instance based on his email and password
+        """
+        email = user_email
+        pwd = user_pwd
+        if email and pwd and type(email) is str and type(pwd) is str:
+            try:
+                user = User.search({'email': email})
+                if user and user != []:
+                    for user in user:
+                        if user.is_valid_password(pwd):
+                            return user
+            except Exception:
+                return None
+
+        return None
+    
