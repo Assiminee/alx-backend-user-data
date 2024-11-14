@@ -56,4 +56,4 @@ class BasicAuth(Auth):
             email, password = db64ah.split(":")
             return email, password
 
-        return None
+        return None, None
