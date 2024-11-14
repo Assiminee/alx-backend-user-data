@@ -2,7 +2,7 @@
 """
 Authentication module
 """
-from typing import List, TypeVar
+from typing import List, TypeVar, re
 
 from flask import request
 
@@ -15,21 +15,24 @@ class Auth:
         """
         Returns True if the path is not in the list of strings excluded_paths
         """
-        if path:
-            if path.endswith('/'):
-                altr = path[:-1]
-            else:
-                altr = path + '/'
+        if path and not path.endswith('/'):
+            path += '/'
 
-            if exluded_path and exluded_path != []:
-                if path in exluded_path or altr in exluded_path:
+        if (
+            not path or
+            not excluded_paths or
+            len(excluded_paths) == 0
+        ):
+            return True
+
+        for excluded_path in excluded_paths:
+            if excluded_path.endswith('*'):
+                pattern = excluded_path[:-1] + '.*'
+                if re.match(pattern, path):
                     return False
-
-                for end_fil in exluded_path:
-                    cprs = end_fil[:-1]
-                    cpath = path[:len(cprs)]
-                    if cpath == cprs:
-                        return False
+            else:
+                if excluded_path == path:
+                    return False
 
         return True
 
