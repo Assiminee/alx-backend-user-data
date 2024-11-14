@@ -55,7 +55,7 @@ class BasicAuth(Auth):
         """
         db64ah = decoded_base64_authorization_header
         if db64ah and type(db64ah) is str and ":" in db64ah:
-            email, password = db64ah.split(":")
+            email, password = db64ah.split(":", 1)
             return email, password
 
         return None, None
