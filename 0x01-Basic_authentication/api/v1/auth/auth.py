@@ -2,7 +2,8 @@
 """
 Authentication module
 """
-from typing import List, TypeVar, re
+import re
+from typing import List, TypeVar
 
 from flask import request
 
