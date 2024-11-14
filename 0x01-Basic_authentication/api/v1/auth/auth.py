@@ -15,18 +15,23 @@ class Auth:
         """
         Returns True if the path is not in the list of strings excluded_paths
         """
-        if path and not path.endswith('/'):
-            path += '/'
+        if path:
+            if path.endswith('/'):
+                altr = path[:-1]
+            else:
+                altr = path + '/'
 
-        if (
-            not path or
-            not excluded_paths or
-            len(excluded_paths) == 0 or
-            path not in excluded_paths
-        ):
-            return True
+            if exluded_path and exluded_path != []:
+                if path in exluded_path or altr in exluded_path:
+                    return False
 
-        return False
+                for end_fil in exluded_path:
+                    cprs = end_fil[:-1]
+                    cpath = path[:len(cprs)]
+                    if cpath == cprs:
+                        return False
+
+        return True
 
     def authorization_header(self, request=None) -> str:
         """
