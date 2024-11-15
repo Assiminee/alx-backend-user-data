@@ -14,17 +14,25 @@ def status() -> str:
     return jsonify({"status": "OK"})
 
 
-@app_views.route('/unauthorized', strict_slashes=False)
-def unauthorized() -> None:
-    """ GET /api/v1/unauthorized
-    endpoint to test 401 error
+@app_views.route('/stats/', strict_slashes=False)
+def stats() -> str:
+    """ GET /api/v1/stats
+    Return:
+      - the number of each objects
     """
+    from models.user import User
+    stats = {}
+    stats['users'] = User.count()
+    return jsonify(stats)
+
+
+@app_views.route('/unauthorized', strict_slashes=False)
+def try_unauthorized() -> None:
+    """Rise abort error for testing"""
     abort(401)
 
 
 @app_views.route('/forbidden', strict_slashes=False)
-def forbidden() -> None:
-    """ GET /api/v1/forbidden
-    endpoint to test 403 error
-    """
+def try_forbidden() -> None:
+    """Rise abort error for testing"""
     abort(403)
